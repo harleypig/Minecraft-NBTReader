@@ -210,8 +210,6 @@ sub readStringLength {
         $len = unpack('S', $buf);
     }
     
-    die("The Fuck?") if(!$allowzerolength && !$len);
-    
     return $len;
 }
 
@@ -334,6 +332,8 @@ sub readString {
     my $val;
     my $len = $self->readStringLength($fh);
     
+    return '' if $len == 0;
+
     read($fh, $val, $len) or die($!);
     
     return $val;
