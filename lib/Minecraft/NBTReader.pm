@@ -149,6 +149,16 @@ sub parseFile {
             my %tmp;
             $self->parseFile($fh, \%tmp);
             $data->{$name} = \%tmp;
+        } elsif($type == 11) {
+            # TAG_Int_Array
+            my $name = $self->readTagName($fh);
+            my $count = $self->readInt($fh);
+            my @vals;
+            for(my $i = 0; $i < $count; $i++) {
+                my $val = $self->readInt($fh);
+                push @vals, $val;
+            }
+            $data->{$name} = \@vals;
         } else {
             die("Unknown type $type");
         }
